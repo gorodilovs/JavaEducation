@@ -1,0 +1,10 @@
+Mar 07, 2023 6:48:59 PM Seminar_2.task_3 main
+INFO: User action: 
+Mar 07, 2023 6:49:01 PM Seminar_2.task_3 main
+INFO: User input first number: 8.0
+Mar 07, 2023 6:49:04 PM Seminar_2.task_3 main
+INFO: User input function: -
+Mar 07, 2023 6:49:06 PM Seminar_2.task_3 main
+INFO: User input second number: 8.0
+Mar 07, 2023 6:49:06 PM Seminar_2.task_3 main
+INFO: 8.0 - 8.0 = 0.0
