@@ -18,7 +18,6 @@ public class task_3 {
         int[] avoid = new int[2];
         int qCount = 0;
         int vectorCount = 1;
-
         int stepBack = 0;
         //List<int[]> queensAllPos = new LinkedList<>();
 
