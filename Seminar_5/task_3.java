@@ -8,105 +8,132 @@
 
 package Seminar_5;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.text.html.StyleSheet;
+
 public class task_3 {
     public static void main(String[] args) {
-        int[][] board = new int[8][8];
-        int[][] queenOnePos = new int[8][2];
-        int[] avoid = new int[2];
-        int qCount = 0;
-        int vectorCount = 1;
-        int stepBack = 0;
-        //List<int[]> queensAllPos = new LinkedList<>();
+        int[] board = new int[64];
+        List<Integer> queens = new ArrayList<>();
+        // List<Integer> vectorQueen = new ArrayList<>();
+        // List<Integer> remainingPositions = new ArrayList<>();
 
-        // while(qCount != 8)
-        // {
-        //     if (qCount < 8)
-        //     {
-        //         stepBack++;
-        //     }
-        // }
+        // Fill
+        for (int i = 0; i < 64; i++) {
+            board[i] = i;
+        }
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-
-                if (board[i][j] == 0 && qCount < 8 && board[avoid[0]][avoid[1]] != 0)
-                {
-                    queenOnePos[qCount][0] = i;
-                    queenOnePos[qCount][1] = j;
-                    board[i][j] = -vectorCount;
-                    qCount++;
-
-                    for (int i2 = 0; i2 < board.length; i2++) {
-                        for (int j2 = 0; j2 < board[i2].length; j2++) {
-                            if (board[i2][j2] != -1)
-                            {
-                                if (i2 == i - j + j2
-                                || i2 == i + j - j2
-                                || i2 == i || j2 == j)
-                                {   
-                                    if (board[i2][j2] == 0)                               
-                                        board[i2][j2] = vectorCount;                                   
-                                }
-                            }                          
-                        }                       
-                    }
-                    vectorCount++;
-                    
-                    //PrintBoard(board);
-                }
-
-                if (i == board.length -1 && j == board[i].length -1 && qCount != 8)
-                {
-                    System.out.println("!!!");
-                    for (int i2 = 0; i2 < board.length; i2++) {
-                        for (int j2 = 0; j2 < board[i2].length; j2++) {
-                            if (board[i2][j2] == vectorCount-1 || board[i2][j2] == -vectorCount+1)
-                            {
-                                board[i2][j2] = 0;
-                            }
-                        }
-                    }
-                    vectorCount--;
-                    i = 0;
-                    j = 0;
-                    avoid[0] = queenOnePos[qCount-1][0];
-                    avoid[1] = queenOnePos[qCount-1][1];
-                    queenOnePos[qCount-1][0] = 0;
-                    queenOnePos[qCount-1][1] = 0;
-                    qCount--;
-                }
-
+        // Make leap after Queen-found!
+        // Using while Q < 8
+        // Using Map to step-back
+        for (int i = 0; i < 64; i++) {
+            if (board[i] != 88)
+            {
+                queens.add(i);
+                NewQueen(board, i);
+                PrintBoard(board);
             }
-            System.out.println("Ittertion: " + i);
-            PrintBoard(board);
-            System.out.println("qCOunt "+ qCount);
         }
+        
 
-        for (int[] is : queenOnePos) {
-            for (int is2 : is) {
-                System.out.print(is2);
-            }  
-            System.out.println();  
-        }
-        System.out.println(qCount);
+        System.out.println(queens);
     }
 
-    public static void PrintBoard(int[][] board)
+    public static int[] NewQueen (int[] board, int queen)
     {
-        for (int i3 = 0; i3 < board.length; i3++) {
-            for (int j3 = 0; j3 < board[i3].length; j3++) {
-                if (board[i3][j3] < 0)
-                    System.out.print(-board[i3][j3]+ "! ");
-                else if (board[i3][j3] > 0)
-                    System.out.print(board[i3][j3]+ "  ");
-                else
-                    System.out.print("0  ");
-            }
-            System.out.println();
+        
+        int queenRow = queen / 8;
+        int quennColumn = queen % 8 + 8 * (queenRow);
+        // Row
+        for (int i = (queenRow) * 8; i < 8 + (queenRow) * 8; i++) {
+            board[i] = 88;
         }
-        System.out.println();
+
+        // Column
+        for (int i = quennColumn; i < 64; i += 8) {
+            board[i] = 88;
+        }
+
+        // Left lower diagonal
+        if (8 - queenRow > queen % 8)
+        {
+            for (int i = queen + 7; i <= queen + 7 * (queen % 8); i += 7) {
+                board[i] = 88;
+            }
+        }
+        else
+        {
+            for (int i = queen + 7; i < queen + 7 * (8 - (queen / 8)); i += 7) {
+                board[i] = 88;
+            }
+        }
+
+        // Right lower diagonal
+        if (8 - queenRow > 8 - (queen % 8))
+        {
+            for (int i = queen + 9; i <= queen + 9 * (8 - (queen % 8) - 1); i += 9) {
+                board[i] = 88;
+            }
+        }
+        else
+        {
+            for (int i = queen + 9; i <= queen + 9 * (8 - (queen / 8) - 1); i += 9) {
+                board[i] = 88;
+            }
+        }
+        return board;
     }
+
+
+
+
+
+
+
+
+
+    public static void PrintBoard(int[] board){
+        for (int i = 0; i < 64; i++) {
+            if (i % 8 == 0)
+                System.out.println();
+            if (board.length < i)
+                System.out.print("0");
+            else
+            {
+                if (board[i] < 10)
+                    System.out.print(board[i]+ "  "); 
+                else
+                    System.out.print(board[i]+ " ");
+            }                
+        }
+    }
+
+    // public static void PrintBoard(List<Integer> remainingPositions){
+    //     int counter = 0;
+    //     for (int i = 0; i < 64; i++) {
+    //         if (i % 8 == 0)
+    //              System.out.println();                
+
+    //         if (remainingPositions.size() -1 < i)
+    //             System.out.print("0  ");
+    //         else
+    //         {
+    //             if (remainingPositions.get(counter) == i)
+    //             {
+    //                 if (remainingPositions.get(counter) < 10)
+    //                     System.out.print(remainingPositions.get(counter)+ "  "); 
+    //                 else
+    //                     System.out.print(remainingPositions.get(counter)+ " ");
+                    
+    //                 counter++;
+    //             }
+    //             else
+    //                 System.out.print("0  ");              
+    //         }
+    //     }
+    // }
 }
